@@ -1,0 +1,37 @@
+==========================================
+PATTERN MINER MINI PROJECT
+==========================================
+
+--- Pattern 1: Humans who like Soda ---
+
+[Alice, Bob, Charlie]
+
+--- Support: Human AND Likes Soda ---
+
+3
+
+--- Pattern 2: Humans who like Pizza ---
+
+[Alice, Bob, Charlie]
+
+--- Support: Human AND Likes Pizza ---
+
+3
+
+--- Pattern 3: Human + Soda + Pizza ---
+
+[Alice, Bob, Charlie]
+
+--- Support: Human + Soda + Pizza ---
+
+3
+
+--- Minimum Support = 2 ---
+
+(PatternResult (HumanLikes Soda) 3 Frequent)
+
+(PatternResult (HumanLikes Water) 0 Infrequent)
+
+==========================================
+MINING COMPLETE
+==========================================

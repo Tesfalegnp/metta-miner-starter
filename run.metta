@@ -2,11 +2,18 @@
 ; Pattern Miner Mini Project - Demo
 ; ============================================================
 
-!(bind! &kb (new-space))
 
-!(load "data.metta" &kb)
-!(load "miner.metta" &kb)
+; ------------------------------------------------------------
+; Load knowledge base and mining logic
+; ------------------------------------------------------------
 
+!(load "data.metta")
+!(load "miner.metta")
+
+
+; ------------------------------------------------------------
+; Header
+; ------------------------------------------------------------
 
 !(println "")
 !(println "==========================================")
@@ -21,7 +28,11 @@
 !(println "")
 !(println "--- Pattern 1: Humans who like Soda ---")
 
-!(human-soda-pattern &kb)
+!(match &self
+   (Inheritance $x Human)
+   (match &self
+      (Evaluation (Likes $x Soda))
+      $x))
 
 
 ; ------------------------------------------------------------
@@ -31,7 +42,12 @@
 !(println "")
 !(println "--- Support: Human AND Likes Soda ---")
 
-!(count-list (human-soda-pattern &kb))
+!(size
+   (match &self
+      (Inheritance $x Human)
+      (match &self
+         (Evaluation (Likes $x Soda))
+         $x)))
 
 
 ; ------------------------------------------------------------
@@ -41,7 +57,11 @@
 !(println "")
 !(println "--- Pattern 2: Humans who like Pizza ---")
 
-!(human-pizza-pattern &kb)
+!(match &self
+   (Inheritance $x Human)
+   (match &self
+      (Evaluation (Likes $x Pizza))
+      $x))
 
 
 ; ------------------------------------------------------------
@@ -51,7 +71,12 @@
 !(println "")
 !(println "--- Support: Human AND Likes Pizza ---")
 
-!(count-list (human-pizza-pattern &kb))
+!(size
+   (match &self
+      (Inheritance $x Human)
+      (match &self
+         (Evaluation (Likes $x Pizza))
+         $x)))
 
 
 ; ------------------------------------------------------------
@@ -61,7 +86,13 @@
 !(println "")
 !(println "--- Pattern 3: Human + Soda + Pizza ---")
 
-!(human-soda-pizza-pattern &kb)
+!(match &self
+   (Inheritance $x Human)
+   (match &self
+      (Evaluation (Likes $x Soda))
+      (match &self
+         (Evaluation (Likes $x Pizza))
+         $x)))
 
 
 ; ------------------------------------------------------------
@@ -71,7 +102,14 @@
 !(println "")
 !(println "--- Support: Human + Soda + Pizza ---")
 
-!(count-list (human-soda-pizza-pattern &kb))
+!(size
+   (match &self
+      (Inheritance $x Human)
+      (match &self
+         (Evaluation (Likes $x Soda))
+         (match &self
+            (Evaluation (Likes $x Pizza))
+            $x))))
 
 
 ; ------------------------------------------------------------
@@ -81,10 +119,14 @@
 !(println "")
 !(println "--- Minimum Support = 2 ---")
 
-!(mine-pattern &kb Soda 2)
+!(mine-pattern &self Soda 2)
 
-!(mine-pattern &kb Water 2)
+!(mine-pattern &self Water 2)
 
+
+; ------------------------------------------------------------
+; Footer
+; ------------------------------------------------------------
 
 !(println "")
 !(println "==========================================")

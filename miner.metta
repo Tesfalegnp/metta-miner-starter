@@ -2,16 +2,10 @@
 ; Pattern Miner Mini Project - Mining Logic
 ; ============================================================
 
-; ------------------------------------------------------------
-; Find humans who like an item.
-;
-; Pattern:
-;
-;   Human($x)
-;   AND
-;   Likes($x, $item)
-;
-; ------------------------------------------------------------
+
+; ============================================================
+; Find humans who like an item
+; ============================================================
 
 (= (human-likes $kb $item)
    (match $kb
@@ -21,42 +15,67 @@
          $x)))
 
 
-; ------------------------------------------------------------
-; Count results.
-; ------------------------------------------------------------
+; ============================================================
+; Soda pattern
+; ============================================================
 
-(= (count-list ()) 0)
+(= (human-soda-pattern $kb)
+   (match $kb
+      (Inheritance $x Human)
+      (match $kb
+         (Evaluation (Likes $x Soda))
+         $x)))
 
-(= (count-list ($head $tail))
-   (+ 1 (count-list $tail)))
+
+; ============================================================
+; Pizza pattern
+; ============================================================
+
+(= (human-pizza-pattern $kb)
+   (match $kb
+      (Inheritance $x Human)
+      (match $kb
+         (Evaluation (Likes $x Pizza))
+         $x)))
 
 
-; ------------------------------------------------------------
-; Calculate support.
+; ============================================================
+; Three-clause pattern
 ;
-; Support = number of entities satisfying:
-;
-;   Human($x)
-;   AND
-;   Likes($x, $item)
-;
-; ------------------------------------------------------------
+; Human(x)
+; AND Likes(x, Soda)
+; AND Likes(x, Pizza)
+; ============================================================
+
+(= (human-soda-pizza-pattern $kb)
+   (match $kb
+      (Inheritance $x Human)
+      (match $kb
+         (Evaluation (Likes $x Soda))
+         (match $kb
+            (Evaluation (Likes $x Pizza))
+            $x))))
+
+
+; ============================================================
+; Support
+; ============================================================
 
 (= (support $kb $item)
-   (count-list (human-likes $kb $item)))
+   (size (human-likes $kb $item)))
 
 
-; ------------------------------------------------------------
-; Minimum-support test.
-; ------------------------------------------------------------
+; ============================================================
+; Frequent pattern test
+; ============================================================
 
 (= (frequent? $support $min-support)
    (>= $support $min-support))
 
 
-; ------------------------------------------------------------
-; Produce mining result.
-; ------------------------------------------------------------
+; ============================================================
+; Mining result
+; ============================================================
 
 (= (mine-pattern $kb $item $min-support)
    (let $s (support $kb $item)
@@ -69,47 +88,3 @@
              (HumanLikes $item)
              $s
              Infrequent))))
-
-
-; ============================================================
-; Two-Clause Pattern: Human + Soda
-; ============================================================
-
-(= (human-soda-pattern $kb)
-   (match $kb
-      (Inheritance $x Human)
-      (match $kb
-         (Evaluation (Likes $x Soda))
-         $x)))
-
-
-; ============================================================
-; Two-Clause Pattern: Human + Pizza
-; ============================================================
-
-(= (human-pizza-pattern $kb)
-   (match $kb
-      (Inheritance $x Human)
-      (match $kb
-         (Evaluation (Likes $x Pizza))
-         $x)))
-
-
-; ============================================================
-; Three-Clause Pattern:
-;
-; Human($x)
-; AND Likes($x, Soda)
-; AND Likes($x, Pizza)
-;
-; Demonstrates conjunction expansion.
-; ============================================================
-
-(= (human-soda-pizza-pattern $kb)
-   (match $kb
-      (Inheritance $x Human)
-      (match $kb
-         (Evaluation (Likes $x Soda))
-         (match $kb
-            (Evaluation (Likes $x Pizza))
-            $x))))
