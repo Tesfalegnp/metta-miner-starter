@@ -5,6 +5,18 @@ This project demonstrates how patterns can be represented as logical conjunction
 
 The project is inspired by the Pattern Miner work in the [iCog-Labs-Dev Pattern-miner-mm2 repository](https://github.com/iCog-Labs-Dev/Pattern-miner-mm2).
 
+## Run it
+
+From this directory, run:
+
+```bash
+python3 run.py
+```
+
+The installed Hyperon 0.2 runtime uses `MeTTa.run()` rather than the retired
+`MeTTa.evaluate()` API. The Python runner evaluates the MeTTa patterns and
+formats their matches, support counts, and frequency results.
+
 ---
 
 ## 1. Project Overview
@@ -189,7 +201,7 @@ Charlie → Soda
 ### Water
 
 ```text
-David → Water
+No human in this sample likes Water.
 ```
 
 ### Pizza
@@ -386,7 +398,7 @@ has:
 Support = 0
 ```
 
-because David likes Water, but the pattern requires the entity to be Human, and in the current example David is not included as a Soda/Pizza match.
+because no human in this sample likes Water.
 
 ---
 

@@ -13,8 +13,6 @@
 (Evaluation (Likes Bob Soda))
 (Evaluation (Likes Charlie Soda))
 
-(Evaluation (Likes David Water))
-
 (Evaluation (Likes Alice Pizza))
 (Evaluation (Likes Bob Pizza))
 (Evaluation (Likes Charlie Pizza))

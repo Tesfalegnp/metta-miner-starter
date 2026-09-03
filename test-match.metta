@@ -2,4 +2,4 @@
 (Person Bob)
 (Person Charlie)
 
-!(match &self (Person $x) $x)
+!(size ((match &self (Person $x) $x)))
