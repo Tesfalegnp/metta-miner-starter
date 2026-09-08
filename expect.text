@@ -1,37 +1,24 @@
 ==========================================
-PATTERN MINER MINI PROJECT
+PATTERN MINER - METTA
 ==========================================
 
---- Pattern 1: Humans who like Soda ---
+Soda:
+['Alice', 'Bob', 'Charlie']
+Support: 3
 
-[Alice, Bob, Charlie]
+Pizza:
+['Alice', 'Bob', 'Charlie']
+Support: 3
 
---- Support: Human AND Likes Soda ---
+Soda + Pizza:
+['Alice', 'Bob', 'Charlie']
+Support: 3
 
-3
-
---- Pattern 2: Humans who like Pizza ---
-
-[Alice, Bob, Charlie]
-
---- Support: Human AND Likes Pizza ---
-
-3
-
---- Pattern 3: Human + Soda + Pizza ---
-
-[Alice, Bob, Charlie]
-
---- Support: Human + Soda + Pizza ---
-
-3
-
---- Minimum Support = 2 ---
-
-(PatternResult (HumanLikes Soda) 3 Frequent)
-
-(PatternResult (HumanLikes Water) 0 Infrequent)
+Minimum support: 2
+(PatternResult Soda 3 Frequent)
+(PatternResult Pizza 3 Frequent)
+(PatternResult SodaPizza 3 Frequent)
 
 ==========================================
-MINING COMPLETE
+METTA COMPLETE
 ==========================================

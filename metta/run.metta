@@ -1,5 +1,5 @@
 ; ============================================================
-; Pattern Miner Mini Project - Demo
+; Pattern Miner - MeTTa Demo
 ; ============================================================
 
 
@@ -17,7 +17,7 @@
 
 !(println "")
 !(println "==========================================")
-!(println "PATTERN MINER MINI PROJECT")
+!(println "PATTERN MINER - METTA IMPLEMENTATION")
 !(println "==========================================")
 
 
@@ -130,5 +130,5 @@
 
 !(println "")
 !(println "==========================================")
-!(println "MINING COMPLETE")
+!(println "METTA IMPLEMENTATION COMPLETE")
 !(println "==========================================")

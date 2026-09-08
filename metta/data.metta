@@ -1,5 +1,5 @@
 ; ============================================================
-; Pattern Miner Mini Project - Knowledge Base
+; Pattern Miner - MeTTa Knowledge Base
 ; ============================================================
 
 (Inheritance Alice Human)

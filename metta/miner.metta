@@ -1,5 +1,5 @@
 ; ============================================================
-; Pattern Miner Mini Project - Mining Logic
+; Pattern Miner - MeTTa Mining Logic
 ; ============================================================
 
 
