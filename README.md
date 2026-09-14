@@ -170,3 +170,62 @@ MORK is the MeTTa Optimal Reduction Kernel. Its command-line utility is built
 from the `kernel` directory with nightly Rust. See the
 [official MORK repository](https://github.com/trueagi-io/MORK) for the current
 kernel and MM2 material.
+
+## Learning examples
+
+This repository now includes a small learning laboratory in `examples/` with
+MeTTa-first demonstrations and small MORK/MM2 mappings where appropriate.
+
+Examples added so far:
+
+- `examples/02_lists/metta/` — A MeTTa list library (`list_lib.metta`) that
+   demonstrates `Cons`/`Nil` representation and operations implemented as
+   recursive pattern-based rules: `head`, `tail`, `append`, `member`, `length`
+   (Peano numbers), `map`, `nth` (index), `take`, `drop`, `insert_at`,
+   `remove_first`, `pop_head`, plus demo runners.
+- `examples/02_lists/mork/` — A minimal MM2 example showing how `count`
+   aggregation can produce a `ListLength` atom from `Element` facts.
+
+How to run the MeTTa list demos (requires Hyperon):
+
+```bash
+python3 examples/02_lists/metta/run_metta_examples.py
+```
+
+How to run the MORK list demo (requires `mork` binary):
+
+```bash
+MORK_BIN=/path/to/mork ./examples/02_lists/mork/run-mork.sh
+```
+
+Tests for new examples:
+
+```bash
+bash tests/test_metta_lists.sh   # runs the MeTTa list demos (smoke)
+bash tests/test_mork_lists.sh    # runs the MORK example or skips if binary fails
+```
+
+If the MORK binary panics or fails, the MORK example tests will be skipped
+with guidance on running it manually. This avoids blocking the learning
+workbench when the MORK runtime is not available or incompatible.
+
+Roadmap
+-------
+
+The learning laboratory is organized into modules (progressing from
+foundations to graph algorithms):
+
+1. 01_basics
+2. 02_lists
+3. 03_control_flow
+4. 04_functions
+5. 05_recursion
+6. 06_mork_mm2
+7. 07_data_structures
+8. 08_search
+9. 09_graph_basics
+10. 10_pattern_matching
+11. 11_graph_algorithms
+
+Each module contains Python demos, MeTTa examples where meaningful, and
+MORK/MM2 examples or notes when a rule-based perspective is natural.

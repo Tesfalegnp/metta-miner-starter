@@ -1,0 +1,5 @@
+(Edge A B)
+(Edge A C)
+(Edge B D)
+(Edge C D)
+(Rule (Head (Edge ?a ?c)) (Body (Edge ?a ?b) (Edge ?b ?c)))

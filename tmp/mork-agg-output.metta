@@ -1,0 +1,7 @@
+(: Bob Person)
+(: Alice Person)
+(: Charlie Person)
+(Likes Bob Soda)
+(Likes Alice Soda)
+(Likes Charlie Soda)
+(Support Soda 3)
