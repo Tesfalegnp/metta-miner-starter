@@ -1,5 +1,0 @@
-(: Bob Person)
-(: Alice Person)
-(Likes Bob Pizza)
-(Likes Alice Soda)
-(PersonLikes Soda Alice)
