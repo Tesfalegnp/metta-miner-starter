@@ -22,7 +22,7 @@ mork run src/learning/python-list/demo.metta
 
 *(The `mork-run.sh` helper automatically detects and loads dependencies listed in `;; TEST-AUX` comments).*
 
-### Option C: Run Full Automated Test Suite (All 5 Modules)
+### Option C: Run Full Automated Test Suite (All 6 Modules)
 
 ```bash
 ./scripts/run-python-list-tests.sh
@@ -41,6 +41,7 @@ This module bridges familiar Python list manipulations and declarative AtomSpace
 5. **Recursive State Machines (`DEF`)**: Implementing multi-step loops (e.g., `count`, `map`, `filter`, `to-facts`) using declarative dynamic rule instantiation (`DEF`).
 6. **Fact Generation & Querying**: Turning structured nested data into first-class relational facts and performing pattern queries.
 7. **Relational Reasoning**: Combining domain knowledge facts to derive higher-level insights.
+8. **Multi-Accumulator State**: Maintaining multiple recursive accumulators and emitting a structured result.
 
 ---
 
@@ -53,6 +54,7 @@ src/learning/python-list/
 ├── core.metta           # Core protocol and construct operation
 ├── basic.metta          # Direct stdlib list operations
 ├── recursive.metta      # Recursive state machines (count, map, filter)
+├── advanced.metta       # Dual-accumulator partition state machine
 ├── facts.metta          # List decomposition into facts & query engine
 └── reasoning.metta      # Relational AtomSpace reasoning
 ```
@@ -62,6 +64,7 @@ tests/learning/python-list/
 ├── core-test.metta       # Core construction tests
 ├── basic-test.metta      # Basic operations & edge-case suite
 ├── recursive-test.metta  # Recursion (count, map, filter) suite
+├── advanced-test.metta   # Dual-accumulator partition suite
 ├── facts-test.metta      # Fact generation & query suite
 └── reasoning-test.metta  # AtomSpace reasoning test suite
 ```
@@ -103,6 +106,13 @@ Recursive state machines in MM2 use explicit state facts and `DEF` dynamic rule 
 * **`count`**: Decomposes the list with `car-atom`/`cdr-atom`, unifies matching heads, collects matching occurrences into an accumulator, and computes `(length (' $acc))`.
 * **`map`**: Looks up `(LIST-MAP-RULE $from $to)` for each element, accumulates mapped items with `cons`, and finalizes with `reverse`.
 * **`filter`**: Checks `(LIST-FILTER-PREDICATE $item keep|drop)`, preserves `keep` items, and finalizes with `reverse`.
+
+### Advanced Operations (`advanced.metta`)
+
+* **`partition`**: Traverses one list with separate keep and drop accumulators, then restores input order and emits both lists:
+  ```metta
+  (LIST-RESULT partition partition-1 ((Alice Carol) (Bob)))
+  ```
 
 ### Fact Generation & Reasoning (`facts.metta`, `reasoning.metta`)
 
