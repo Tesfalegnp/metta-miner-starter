@@ -1,0 +1,11 @@
+(exec (freq 176 total_count)
+    (,  (db_size $db) 
+        (n_conjuncts_new $pattern))
+    (0
+     (pure (database_size $db) $db_size (length (' $db)))
+     (pure (count_conjuncts $pattern) $n_conjuncts_new (length (' $pattern)))
+     (+ (cal_binomial $db_size $n_conjuncts_new))
+     (- (db_size $db) )
+     (- (n_conjuncts_new $pattern))
+     )
+)
