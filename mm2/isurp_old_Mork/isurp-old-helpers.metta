@@ -211,6 +211,14 @@
     (+ (iprob-eval2-cnt2 $db 0))
     (- (iprob (($c1) ($c2)) $db $total_count))))
 
+(exec (freq 051 iprob-two-blocks-direct)
+  (, (iprob ($b1 $b2) $db $total_count))
+  (O
+    (+ (iprob-eval2-req $db $b1 $b2 $total_count))
+    (+ (iprob-eval2-cnt1 $db 0))
+    (+ (iprob-eval2-cnt2 $db 0))
+    (- (iprob ($b1 $b2) $db $total_count))))
+
 (exec (freq 052 iprob-eval2-count1)
   (, (iprob-eval2-req $db $c1 $c2 $total_count)
      ($db $c1)
@@ -276,6 +284,27 @@
      (prob-cnt $db 0))
   (O
     (count (prob-cnt $db $count) $count ($c1 $c2))
+    (- (prob-cnt $db 0))))
+
+(exec (freq 061 prob-count-three)
+  (, (prob-req $db (, $c1 $c2 $c3) $total_count)
+     ($db $c1)
+     ($db $c2)
+     ($db $c3)
+     (prob-cnt $db 0))
+  (O
+    (count (prob-cnt $db $count) $count ($c1 $c2 $c3))
+    (- (prob-cnt $db 0))))
+
+(exec (freq 061 prob-count-four)
+  (, (prob-req $db (, $c1 $c2 $c3 $c4) $total_count)
+     ($db $c1)
+     ($db $c2)
+     ($db $c3)
+     ($db $c4)
+     (prob-cnt $db 0))
+  (O
+    (count (prob-cnt $db $count) $count ($c1 $c2 $c3 $c4))
     (- (prob-cnt $db 0))))
 
 ;; Step 3: Forward support count and total_count to ratio function (//)
@@ -393,8 +422,7 @@
      ($db $atom))
   (O
     (count (total-counts-step1 $pattern $n) $n $atom)
-    (- (total_counts $pattern $db))
-    (- ($db $atom))))
+    (- (total_counts $pattern $db))))
 
 ;;Extract head of pattern to check if it is a conjunction
 (exec (freq 102 total-counts-head)

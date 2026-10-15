@@ -15,7 +15,7 @@
 ;; Expected: (0.3333333333333333)
 
         ;; 2. Recursive Partition Evaluation: isurp-old_
-(isurp-old_ (((((Inheritance $m man))))) &test-space 4)
+(isurp-old_ ((Inheritance $m man)) &test-space 4)
 ;; Expected: (0.5)
 
 (isurp-old_ () &test-space 4)
