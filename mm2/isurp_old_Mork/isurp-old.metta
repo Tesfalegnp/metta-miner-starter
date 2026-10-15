@@ -11,8 +11,8 @@
 ;; Dependencies:
 ;;   Requires helper definitions in isurp-old-helpers.metta:
 ;;     mork run <query-file> <out-file> \
-;;       --aux-path mm2/isurp_old_conversion/isurp-old-helpers.metta \
-;;       --aux-path mm2/isurp_old_conversion/isurp-old.metta
+;;       --aux-path mm2/isurp_old_Mork/isurp-old-helpers.metta \
+;;       --aux-path mm2/isurp_old_Mork/isurp-old.metta
 ;; =============================================================================
 
 
@@ -51,8 +51,8 @@
      (isurp-sub-cnt 1 $db $count))
   (O
     (pure
-      ($res)
-      $res
+      ($ratio_res)
+      $ratio_res
       (f64_to_string
         (div_f64
           (f64_from_string $count)

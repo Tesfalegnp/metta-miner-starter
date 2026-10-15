@@ -1,31 +1,3 @@
-;; =============================================================================
-;; isurp-old-helpers.mm2 — HELPER FUNCTIONS FOR I-SURPRISINGNESS (MM2/MORK)
-;; =============================================================================
-;; Purpose:
-;;   Shared utility and mathematical helper functions for the MM2 implementation
-;;   of the isurp-old algorithm.
-;;
-;; Primary consumer:
-;;   isurp-old.mm2
-;;
-;; Included Functionalities:
-;;   - Demo spaces: &test-space, &space
-;;   - Extremum utilities: max, find_max_helper, min, find_min_helper, min-max
-;;   - Block & Partition probability: blk-prob, iprob_, iprob, iprob-old
-;;   - Pattern probability & support: prob, add-pattern, ptrn-support
-;;   - Binomial & combinatorial counts: total_counts, cal_binomial, n_conjuncts_new
-;;   - Multiplicative accumulation: accumulator-x
-;;   - Component support: compute-component-support, sup-num, counter
-;;   - Floating-point division: //
-;;   - Database sizing: db_size
-;;   - Interval distance: dst_from_interval
-;;   - Set partitioning utilities: prepend-to-each, powerset, all-in, any-in,
-;;     valid-subset, partitions-helper, partitions-collect, partitions,
-;;     partitions-wout-pattern
-;;   - Cleanup rules: removing transient evaluation markers
-;; =============================================================================
-
-
 ; Demo atoms for MORK space
 (&test-space (Inheritance Bob man))
 (&test-space (Inheritance Mike man))
@@ -37,14 +9,11 @@
 (&space (Item 5))
 
 
-;; -----------------------------------------------------------------------------
-;; Function: max & find_max_helper
-;; -----------------------------------------------------------------------------
+  ;; Function: max & find_max_helper
 (exec (freq 001 find-max-helper-empty)
   (, (find_max_helper () $init))
   (O (+ ($init)) 
       (- (find_max_helper () $init))))
-
 
   
 (exec (freq 002 find-max-helper-list)
@@ -78,9 +47,7 @@
 ; (max (10))              ; expects: (10)
 ; (max 3 7)              ; expects: (7)
 
-;; -----------------------------------------------------------------------------
-;; Function: min & find_min_helper
-;; -----------------------------------------------------------------------------
+      ;; Function: min & find_min_helper
 (exec (freq 006 find-min-helper-empty)
   (, (find_min_helper () $init))
   (O (+ ($init)) 
@@ -118,9 +85,7 @@
 ; (min 5 10)              ; expected: (5)
 
 
-;; -----------------------------------------------------------------------------
-;; Function: min-max
-;; -----------------------------------------------------------------------------
+        ;; Function: min-max
 (exec (freq 011 min-max-start)
   (, (min-max $lst))
   (O
@@ -136,10 +101,8 @@
 ; (min-max (4 2 8 1 5))   ; expected: (1 8)
 ; (min-max (5))           ; expected: (5 5)
 
-;; -----------------------------------------------------------------------------
-;; Function: blk-prob
-;; Calculates the probability of a block within a partition
-;; -----------------------------------------------------------------------------
+      ;; Function: blk-prob
+      ;; Calculates the probability of a block within a partition
 (exec (freq 055 blk-prob-1)
   (, (blk-prob ($c1) $db $total_count))
   (O
@@ -155,10 +118,8 @@
 ; (blk-prob ((Inheritance $m man)) &test-space 4)   ; expected: (0.5)
 ; (blk-prob ((Inheritance $u ugly)) &test-space 2)  ; expected: (0.5)
 
-;; -----------------------------------------------------------------------------
-;; Function: iprob_
-;; Recursive probability step for partitions
-;; -----------------------------------------------------------------------------
+        ;; Function: iprob_
+        ;; Recursive probability step for partitions
 (exec (freq 050 iprob-sub-empty)
   (, (iprob_ () $db $total_count))
   (O
@@ -197,10 +158,8 @@
 ; (iprob_ (((Inheritance $m man))) &test-space 4)   ; expected: (0.5)
 ; (iprob_ () &test-space 4)                         ; expected: ()
 
-;; -----------------------------------------------------------------------------
-;; Function: iprob & iprob-old
-;; Estimates joint probability of partition blocks under independence assumption
-;; -----------------------------------------------------------------------------
+    ;; Function: iprob & iprob-old
+    ;; Estimates joint probability of partition blocks under independence assumption
 (exec (freq 050 iprob-old-empty)
   (, (iprob-old () $db))
   (O
@@ -292,13 +251,8 @@
 ; (iprob () &test-space 4)                          ; expected: (1)
 
 
-
-
-  ;; -----------------------------------------------------------------------------
-  ;; Function: prob
-  ;; -----------------------------------------------------------------------------
-
-;; Step 1: Initialize prob, setup support counting for pattern in $db
+    ;; Function: prob
+    ;; Step 1: Initialize prob, setup support counting for pattern in $db
 (exec (freq 060 prob-start)
   (, (prob $pattern $db $total_count))
   (O
@@ -349,11 +303,8 @@
 ; (prob (Inheritance $x man) &test-space 4)  ;;; expected : 0.5
 ; (prob (Inheritance $x woman) &test-space 4)  ;; expects : 0.0
 
-    ;; -----------------------------------------------------------------------------
     ;; Function: add-pattern
-    ;; -----------------------------------------------------------------------------
-
-;; with Two blocks
+    ;; with Two blocks
 (exec (freq 070 add-pattern-2)
   (, (add-pattern ($b1 $b2) $db))
   (O
@@ -396,11 +347,8 @@
 
 
  
-      ;; -----------------------------------------------------------------------------
     ;; Function: ptrn-support
-    ;; -----------------------------------------------------------------------------
- 
-;; Two conjuncts with comma: (, $c1 $c2)
+  ;; Two conjuncts with comma: (, $c1 $c2)
 (exec (freq 150 ptrn-sup-two)
   (, (ptrn-support (, $c1 $c2) $db))
   (O
@@ -437,9 +385,6 @@
 
 ; (ptrn-support (, (Inheritance $x man) (Inheritance $x ugly)) &test-space)
 ; (ptrn-support (, (Inheritance $x man) (Inheritance $x woman)) &test-space)
-
-
-
 
 
 ;;Count database size N for the given $db in (total_counts $pattern $db)
@@ -731,16 +676,8 @@
 ; (compute-component-support () &test-space) ; expected: ()
 
 
- 
-
-; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-; ;; Here helper function for surp_old.metta code 
-; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-
 ;; -----------------------------------------------------------------------------
-;; Function: // (Floating point division)
+;; Function: //(Ratio) (Floating point division)
 ;; -----------------------------------------------------------------------------
 (exec (freq 001 float-div)
   (, (// $a $b))
