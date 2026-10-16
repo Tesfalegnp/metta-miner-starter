@@ -2,6 +2,10 @@
 ;;      Converted isurp-old.metta ALGORITHM (MM2 / MORK)
 ;; ============================================================================
 
+        ;;****************************
+        ;; conditional based calling
+        ;;****************************
+
   ;; isurp-old_ with empty case
 (exec (freq 047 isurp-old-sub-empty)
   (, (isurp-old_ () $db $total_count))
@@ -9,33 +13,41 @@
     (+ ())
     (- (isurp-old_ () $db $total_count))))
 
-    ;; Single partition with 2 blocks (nested or direct)
+    ;; Single partition with 2 blocks ((isurp-old_ (((Inheritance $x man) (Inheritance $x ugly))) &test-space 4))
 (exec (freq 047 isurp-old-sub-1-two-blk-direct)
   (, (isurp-old_ (($b1 $b2)) $db $total_count))
   (O
     (+ (iprob ($b1 $b2) $db $total_count))
     (- (isurp-old_ (($b1 $b2)) $db $total_count))))
 
+    ;;; Single Partition with two component in sub nest like (isurp-old_ ((((Inheritance $x man)) ((Inheritance $x ugly))))  &test-space  4)
 (exec (freq 047 isurp-old-sub-1-two-blk)
   (, (isurp-old_ ((($c1) ($c2))) $db $total_count))
   (O
     (+ (iprob (($c1) ($c2)) $db $total_count))
     (- (isurp-old_ ((($c1) ($c2))) $db $total_count))))
 
-    ;; Single partition with single block: ($p1)
+    ;; Single partition with single block: (e.g (isurp-old_ ((Inheritance $m man)) &test-space 4))
 (exec (freq 048 isurp-old-sub-1-single)
   (, (isurp-old_ ($p1) $db $total_count))
   (O
     (+ (prob $p1 $db $total_count))
     (- (isurp-old_ ($p1) $db $total_count))))
 
-      ;; Two partitions: ($p1 $p2)
+      ;; Two partitions: (isurp-old_ (((Inheritance $x man)) ((Inheritance $x ugly)))  &test-space 4)
 (exec (freq 048 isurp-old-sub-2-start)
   (, (isurp-old_ ($p1 $p2) $db $total_count))
   (O
     (pure (isurp-sub2-ctx $ctx ($p1 $p2) $db $total_count) $ctx
       (vars_to_indices (' ($p1 $p2))))
     (- (isurp-old_ ($p1 $p2) $db $total_count))))
+
+
+
+        ;;****************************
+        ;; Processing stage and display with two partition
+        ;;****************************
+
 
 (exec (freq 049 isurp-old-sub-2-init)
   (, (isurp-sub2-ctx $ctx ($p1 $p2) $db $total_count))
@@ -45,6 +57,7 @@
     (+ (iprob-tagged $ctx 2 $p2 $db $total_count))
     (- (isurp-sub2-ctx $ctx ($p1 $p2) $db $total_count))))
 
+    ;; Display the result 1 and result 2
 (exec (freq 054 isurp-old-sub-2-collect)
   (, (isurp-sub2-eval $ctx ($p1 $p2) $db $total_count)
      (iprob-tag-res $ctx 1 $r1)
@@ -54,6 +67,11 @@
     (- (isurp-sub2-eval $ctx ($p1 $p2) $db $total_count))
     (- (iprob-tag-res $ctx 1 $r1))
     (- (iprob-tag-res $ctx 2 $r2))))
+
+
+        ;;****************************
+        ;; Processing stage and display with Thre partition
+        ;;****************************
 
 ;; Three partitions: ($p1 $p2 $p3)
 (exec (freq 048 isurp-old-sub-3-start)
@@ -72,6 +90,7 @@
     (+ (iprob-tagged $ctx 3 $p3 $db $total_count))
     (- (isurp-sub3-ctx $ctx ($p1 $p2 $p3) $db $total_count))))
 
+    ;; Display three Result here
 (exec (freq 054 isurp-old-sub-3-collect)
   (, (isurp-sub3-eval $ctx ($p1 $p2 $p3) $db $total_count)
      (iprob-tag-res $ctx 1 $r1)
@@ -84,6 +103,10 @@
     (- (iprob-tag-res $ctx 2 $r2))
     (- (iprob-tag-res $ctx 3 $r3))))
 
+        ;;****************************
+        ;; Processing stage and display with Four partition
+        ;;****************************
+ 
 ;; Four partitions: ($p1 $p2 $p3 $p4)
 (exec (freq 048 isurp-old-sub-4-start)
   (, (isurp-old_ ($p1 $p2 $p3 $p4) $db $total_count))
@@ -102,6 +125,7 @@
     (+ (iprob-tagged $ctx 4 $p4 $db $total_count))
     (- (isurp-sub4-ctx $ctx ($p1 $p2 $p3 $p4) $db $total_count))))
 
+    ;; Display Results with Four partitions
 (exec (freq 054 isurp-old-sub-4-collect)
   (, (isurp-sub4-eval $ctx ($p1 $p2 $p3 $p4) $db $total_count)
      (iprob-tag-res $ctx 1 $r1)
@@ -116,7 +140,12 @@
     (- (iprob-tag-res $ctx 3 $r3))
     (- (iprob-tag-res $ctx 4 $r4))))
 
-;; --- Tagged partition evaluation rules for isurp-old_ ---
+
+    ;; --- 
+    ;; (iprob function with old PeTTa) 
+    ;; Tagged partition evaluation rules for isurp-old_ 
+    ;; --- 
+
 ;; 1-block partition: ($b1)
 (exec (freq 051 iprob-tag-1blk)
   (, (iprob-tagged $ctx $tag ($b1) $db $total_count))
@@ -133,6 +162,7 @@
     (count (ipt-cnt-1 $ctx $tag $k) $k $b1)
     (- (ipt-cnt-1 $ctx $tag 0))))
 
+    ;; Return result iprob with one block
 (exec (freq 053 ipt-finish-1)
   (, (ipt-eval-1 $ctx $tag $db $b1 $total_count)
      (ipt-cnt-1 $ctx $tag $k))
@@ -239,10 +269,7 @@
 ;; =============================================================================
 ;; 2. MAIN FUNCTION: isurp-old (2-Conjunct Pattern)
 ;; =============================================================================
-;; Input: (, $c1 $c2)
-;; Generated partition: ((($c1) ($c2)))
-;; Interval bounds: emin = emax = P(c1) * P(c2)
-;; =============================================================================
+
 
 (exec (freq 080 isurp-start-2)
   (, (isurp-old (, $c1 $c2) $db $norm))
@@ -375,17 +402,8 @@
 ;; =============================================================================
 ;; 3. MAIN FUNCTION: isurp-old (3-Conjunct Pattern)
 ;; =============================================================================
-;; Input: (, $c1 $c2 $c3)
-;; Generates 4 partitions:
-;;   P1: (($c1 $c2) ($c3))   -> P(c1 c2) * P(c3)
-;;   P2: (($c1 $c3) ($c2))   -> P(c1 c3) * P(c2)
-;;   P3: (($c1) ($c2 $c3))   -> P(c1) * P(c2 c3)
-;;   P4: (($c1) ($c2) ($c3)) -> P(c1) * P(c2) * P(c3)
-;; Total counts: binom(db_size, 3)
-;; Interval bounds: emin = min(P1..P4), emax = max(P1..P4)
-;; Distance: dst_from_interval emin emax pattern_prob
-;; =============================================================================
 
+ 
 (exec (freq 080 isurp-start-3)
   (, (isurp-old (, $c1 $c2 $c3) $db $norm))
   (O
@@ -393,6 +411,7 @@
       (vars_to_indices (' (, $c1 $c2 $c3))))
     (- (isurp-old (, $c1 $c2 $c3) $db $norm))))
 
+ ;;; initalize the value with zero for for each  possible condition 
 (exec (freq 081 isurp-init-3-b)
   (, (isurp3-init $ctx (, $c1 $c2 $c3) $db $norm))
   (O
@@ -407,6 +426,7 @@
     (+ (isurp3-cnt-23 $ctx $norm 0))
     (- (isurp3-init $ctx (, $c1 $c2 $c3) $db $norm))))
 
+    ;; Count total Database/Atome size 
 (exec (freq 082 isurp3-cnt-total)
   (, (isurp3-eval $ctx ($c1 $c2 $c3) $db $norm)
      ($db $atom)
@@ -415,6 +435,7 @@
     (count (isurp3-cnt-total $ctx $norm $n) $n $atom)
     (- (isurp3-cnt-total $ctx $norm 0))))
 
+     ;; count the joint score with three condition and return/preserve to next
 (exec (freq 082 isurp3-cnt-j)
   (, (isurp3-eval $ctx ($c1 $c2 $c3) $db $norm)
      ($db $c1)
@@ -424,7 +445,9 @@
   (O
     (count (isurp3-cnt-j $ctx $norm $j) $j ($c1 $c2 $c3))
     (- (isurp3-cnt-j $ctx $norm 0))))
+    
 
+    ;; count each of condition with match pattern from atomspace 
 (exec (freq 082 isurp3-cnt-1)
   (, (isurp3-eval $ctx ($c1 $c2 $c3) $db $norm)
      ($db $c1)
@@ -476,6 +499,9 @@
     (count (isurp3-cnt-23 $ctx $norm $k23) $k23 ($c2 $c3))
     (- (isurp3-cnt-23 $ctx $norm 0))))
 
+
+
+ ;;; after we get the each of count value with it's condition 
 (exec (freq 083 isurp3-calc)
   (, (isurp3-eval $ctx ($c1 $c2 $c3) $db $norm)
      (isurp3-cnt-total $ctx $norm $n)
@@ -582,6 +608,8 @@
     (- (isurp3-cnt-13 $ctx $norm $k13))
     (- (isurp3-cnt-23 $ctx $norm $k23))))
 
+
+      ;; here get min and max value from set of partition
 (exec (freq 084 isurp3-minmax)
   (, (isurp3-pj $ctx $norm $ppat)
      (isurp3-p1 $ctx $norm $p1)
@@ -596,6 +624,7 @@
     (- (isurp3-p3 $ctx $norm $p3))
     (- (isurp3-p4 $ctx $norm $p4))))
 
+    ;; With Raw or nonormalized 
 (exec (freq 085 isurp3-emit-raw)
   (, (isurp3-pj $ctx False $ppat)
      (isurp3-emin $ctx False $emin)
@@ -616,6 +645,7 @@
     (- (isurp3-emin $ctx False $emin))
     (- (isurp3-emax $ctx False $emax))))
 
+  ;;  With Normalize 
 (exec (freq 085 isurp3-emit-norm)
   (, (isurp3-pj $ctx True $ppat)
      (isurp3-emin $ctx True $emin)
@@ -641,14 +671,6 @@
 
 ;; =============================================================================
 ;; 4. MAIN FUNCTION: isurp-old (4-Conjunct Pattern)
-;; =============================================================================
-;; Input: (, $c1 $c2 $c3 $c4)
-;; Generates 14 partitions across 4 subsets:
-;;   - 4 partitions of type 3+1
-;;   - 3 partitions of type 2+2
-;;   - 6 partitions of type 2+1+1
-;;   - 1 partition of type 1+1+1+1
-;; Total count: binom(db_size, 4)
 ;; =============================================================================
 
 (exec (freq 080 isurp-start-4)
@@ -680,6 +702,7 @@
     (+ (isurp4-cnt-234 $ctx $norm 0))
     (- (isurp4-init $ctx (, $c1 $c2 $c3 $c4) $db $norm))))
 
+    ;; Database count with atom size and store with n variable
 (exec (freq 082 isurp4-cnt-total)
   (, (isurp4-eval $ctx ($c1 $c2 $c3 $c4) $db $norm)
      ($db $atom)
@@ -688,6 +711,7 @@
     (count (isurp4-cnt-total $ctx $norm $n) $n $atom)
     (- (isurp4-cnt-total $ctx $norm 0))))
 
+    ;; if the joint are 0, all component are appeared with atomspace count joint as alone 
 (exec (freq 082 isurp4-cnt-j)
   (, (isurp4-eval $ctx ($c1 $c2 $c3 $c4) $db $norm)
      ($db $c1) ($db $c2) ($db $c3) ($db $c4)
@@ -698,8 +722,10 @@
 
 (exec (freq 082 isurp4-cnt-1)
   (, (isurp4-eval $ctx ($c1 $c2 $c3 $c4) $db $norm)
-     ($db $c1) (isurp4-cnt-1 $ctx $norm 0))
-  (O (count (isurp4-cnt-1 $ctx $norm $k) $k $c1) (- (isurp4-cnt-1 $ctx $norm 0))))
+     ($db $c1) 
+     (isurp4-cnt-1 $ctx $norm 0))
+  (O (count (isurp4-cnt-1 $ctx $norm $k) $k $c1) 
+      (- (isurp4-cnt-1 $ctx $norm 0))))
 
 (exec (freq 082 isurp4-cnt-2)
   (, (isurp4-eval $ctx ($c1 $c2 $c3 $c4) $db $norm)
